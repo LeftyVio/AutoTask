@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { TaskStorage } from "../classes/task_storage";
 import moment from "moment";
+import { fetchClassesForWeek } from "./week_screen";
 
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
@@ -61,7 +62,7 @@ export class InputScreen extends React.Component {
 
     await TaskStorage.setTask(dateStr, temp);
 
-    // add code here to refetch json object (call function from other file)
+    await fetchClassesForWeek();
 
     this.setState({
       inputText1: "",

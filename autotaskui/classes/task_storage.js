@@ -34,7 +34,10 @@ const TASK_STORAGE = "@TaskStorage:";
 
 export class TaskStorage {
   static async getAllTasks(date) { // date is a string, YYYY-MM-DD
-    let temp = AsyncStorage.getItem(TASK_STORAGE + date);
+    let temp = await AsyncStorage.getItem(TASK_STORAGE + date);
+    if (temp == undefined || temp == null || temp === "[object Object]") {
+      return {tasks: []};
+    }
     let tempJSON = JSON.parse(temp);
     return tempJSON;
   }
