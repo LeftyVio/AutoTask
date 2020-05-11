@@ -48,7 +48,8 @@ export class TaskStorage {
 
   static async setTask(date, task) {
     let temp = await AsyncStorage.getItem(TASK_STORAGE + date);
-    if (temp == undefined || temp == null || temp == "[object Object]") {
+    temp = JSON.parse(temp);
+    if (temp == undefined || temp == null || temp === "[object Object]") {
       temp = {tasks: []};
     }
     temp.tasks.push(task);
