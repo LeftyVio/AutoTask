@@ -6,6 +6,7 @@ import { StyleSheet,
          TextInput,
          Dimensions,
          ScrollView,
+         Picker,
          Switch } from 'react-native';
 
 let deviceHeight = Dimensions.get('window').height;
@@ -15,6 +16,13 @@ export class InputScreen extends React.Component {
     state = {
         selected: undefined,
         switchValue: false,
+        inputText1: "",
+        inputText2: "",
+        inputText3: "",
+        inputText4: "",
+        priorityNum: "",
+        itemValue: "",
+        itemIndex: "",
     };
 
     render() {
@@ -39,9 +47,12 @@ export class InputScreen extends React.Component {
                         </View>
                         <View style={styles.optionInputContainer}>
                             <View style={styles.optionInput}>
-                                <Text style={styles.optionInputText}>
-                                test
-                                </Text>
+                                <TextInput
+                                    style={styles.optionInputText}
+                                    onChangeText={(inputText1) => this.setState({inputText1})}
+                                    placeholder="Enter assignment type"
+                                    value ={this.state.inputText1}
+                                />
                             </View>
                         </View>
                     </View>
@@ -53,9 +64,12 @@ export class InputScreen extends React.Component {
                         </View>
                         <View style={styles.optionInputContainer}>
                             <View style={styles.optionInput}>
-                                <Text style={styles.optionInputText}>
-                                test
-                                </Text>
+                                <TextInput
+                                    style={styles.optionInputText}
+                                    onChangeText={(inputText2) => this.setState({inputText2})}
+                                    placeholder="Enter name of assignment"
+                                    value ={this.state.inputText2}
+                                />
                             </View>
                         </View>
                     </View>
@@ -67,16 +81,37 @@ export class InputScreen extends React.Component {
                         </View>
                         <View style={styles.optionInputContainer}>
                             <View style={styles.optionInput}>
-                                <Text style={styles.optionInputText}>
-                                test
-                                </Text>
+                                <TextInput
+                                    style={styles.optionInputText}
+                                    onChangeText={(inputText3) => this.setState({inputText3})}
+                                    placeholder="Enter due date"
+                                    value ={this.state.inputText3}
+                                />
                             </View>
                         </View>
                     </View>
-                    <Switch
-                        value={this.state.switchValue}
-                        onValueChange ={(switchValue)=>this.setState({switchValue})}
-                    />
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.optionContainer}>
+                            <Text style={styles.optionTitle}>
+                                Priority
+                            </Text>
+                        </View>
+                        <View style={styles.optionInputContainer}>
+                            <View style={styles.optionInput}>
+                                <Picker
+                                    selectedValue={this.state.priorityNum}
+                                    style={styles.optionInput}
+                                    onValueChange={(itemValue, itemIndex) => this.setState({itemValue})}
+                                >
+                                    <Picker.Item label="1" value="1"/>
+                                    <Picker.Item label="2" value="2"/>
+                                    <Picker.Item label="3" value="3"/>
+                                    <Picker.Item label="4" value="4"/>
+                                    <Picker.Item label="5" value="5"/>
+                                </Picker>
+                            </View>
+                        </View>
+                    </View>
                 </View>
             </View>
         );
@@ -121,6 +156,16 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         paddingRight: 10,
         paddingBottom: 15,
+        
+    },
+    dropdownMenu: {
+        flexDirection: 'row',
+        height: 80,
+        width: 120,
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
+        paddingRight: 10,
+        paddingBottom: 15,
     },
     optionTitle: {
         fontSize: 20,
@@ -131,6 +176,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         justifyContent: 'flex-end',
         padding: 10,
+        borderWidth: 1,
     },
     optionInput: {
         height: 40,
