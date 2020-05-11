@@ -3,6 +3,7 @@ import { AppRegistry,
          StyleSheet,
          Text,
          View,
+         Image,
          Dimensions,
          ScrollView } from 'react-native';
 
@@ -161,34 +162,95 @@ export class WeekScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#292929',
-    alignItems: 'stretch',
-    justifyContent: 'center',
-  },
-  topBar: {
-    flexDirection: 'row',
-    height: deviceHeight/11,
-    width: deviceWidth,
-    backgroundColor: '#1c1f4c',
-    borderBottomWidth: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    color: 'white',
-    fontSize: 25,
-    paddingLeft: 20,
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#292929',
+        alignItems: 'stretch',
+        justifyContent: 'center',
+    },
+    
+    topBar: {
+        flexDirection: 'row',
+        height: deviceHeight/11,
+        width: deviceWidth,
+        backgroundColor: '#1c1f4c',
+        borderBottomWidth: 2,
+        alignItems: 'center',
+        justifyContent: 'center',
+    
+    },
+    title: {
+        color: 'white',
+        fontSize: 25,
+        paddingLeft: 20,
+    },
+    sub: {
+        color: 'white',
+        fontSize: 25,
+    },
+   
+    contentContainer: {
+        height: deviceHeight/11*9.25,
+        width: deviceWidth,
+        backgroundColor: 'white',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+    },
 
-  contentContainer: {
-    height: deviceHeight/11*9.25,
-    width: deviceWidth,
-    backgroundColor: 'white',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-  },
+    dayTitle: {
+        marginTop: 15,
+        marginLeft: 15,
+        //marginBottom: 15,
+        //flexDirection: 'row',
+        height: deviceHeight/15,
+        width: deviceWidth/5*3,
+    },
+    dayText: {
+        fontSize: 20,
+    },
+    boxes: {
+        marginTop: 15,
+        //marginLeft: 15,
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: deviceHeight/15,
+        width: deviceWidth/5*2
+    },
+    yellow: {
+        marginLeft: 15,
+        height: deviceWidth/15,
+        width: deviceWidth/15,
+        backgroundColor: '#fec20f'
+    },
+    red: {
+        marginLeft: 15,
+        height: deviceWidth/15,
+        width: deviceWidth/15,
+        backgroundColor: '#ff5757'
+    },
+    times: {
+        width: deviceWidth/2,
+    },
+    yellowText: {
+        color: '#fec20f',
+        fontSize: 15,
+    },
+    redText: {
+        color: '#ff5757',
+        fontSize: 15,
+    },
+    wTask: {
+        fontSize: 15,
+        width: deviceWidth/2,
+    },
+    dTask: {
+        fontSize: 15,
+        width: deviceWidth/2,
+        fontStyle: 'bold'
+    },
+    navBar: {
+        flex: 3,
+        backgroundColor: '#fec20f',
+        borderTopWidth: 2,
+    },
 });
-
-

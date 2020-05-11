@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Image,
   Dimensions,
   ScrollView
 } from 'react-native';
@@ -10,6 +11,13 @@ import { CalendarList, Agenda } from 'react-native-calendars';
 
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
+let selectedDay;
+export {selectedDay};
+
+function handleDayPress(day) {
+  selectedDay = day;
+  this.props.navigation.navigate("");
+}
 
 export class CalendarScreen extends React.Component {
   render() {
@@ -29,21 +37,14 @@ export class CalendarScreen extends React.Component {
           <ScrollView>
             <CalendarList
               markingType={'multi-dot'}
-              // Callback which gets executed when visible months change in scroll view. Default = undefined
+              onDayPress={(day) => handleDayPress(day)}
               onVisibleMonthsChange={(months) => { console.log('now these months are visible', months); }}
-              // Max amount of months allowed to scroll to the past. Default = 50
               pastScrollRange={1}
-              // Max amount of months allowed to scroll to the future. Default = 50
               futureScrollRange={3}
-              // Enable or disable scrolling of calendar list
               scrollEnabled={true}
-              // Enable or disable vertical scroll indicator. Default = false
               showScrollIndicator={false}
             />
             <Agenda
-              // The list of items that have to be displayed in agenda. If you want to render item as empty date
-              // the value of date key has to be an empty array []. If there exists no value for date key it is
-              // considered that the date in question is not yet loaded
               items={{
                 '2020-03-10': [{ name: 'item 1 - any js object' }],
                 '2020-03-11': [{ name: 'item 2 - any js object', height: 80 }],

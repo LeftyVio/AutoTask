@@ -1,5 +1,9 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet,
+         View,
+         Image,
+         TouchableOpacity,
+         Dimensions } from 'react-native';
 
 import { CalendarScreen } from '../pages/calendar_screen.js'
 import { WeekScreen } from '../pages/week_screen.js';
@@ -7,6 +11,30 @@ import { InputScreen } from '../pages/input_screen.js';
 
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
+let calendarDisplay = 'none';
+let weekDisplay = 'none';
+let inputDisplay = 'none';
+let settingsDisplay = 'none';
+
+function setCalendarDisplay(){
+    calendarDisplay = 'block';
+    weekDisplay = 'none';
+    inputDisplay = 'none';
+}
+function setWeekDisplay(){
+    calendarDisplay = 'none';
+    weekDisplay = 'block';
+    inputDisplay= 'none';
+}
+function setInputDisplay(){
+    calendarDisplay = 'none';
+    weekDisplay = 'none';
+    inputDisplay = 'block';
+}
+
+export {calendarDisplay, weekDisplay, inputDisplay, settingsDisplay};
+export {setCalendarDisplay, setWeekDisplay, setInputDisplay}
+
 
 export class NavScreen extends React.Component {
     state = {
@@ -55,21 +83,21 @@ export class NavScreen extends React.Component {
                 
                 <View style={styles.navBar}>
                     <TouchableOpacity
-                        onPress={this.setCalendarDisplay}
+                        onPress={setCalendarDisplay}
                     >
                         <View style={styles.navBarButton}>
                             <Image style={{height: 20, width: 20}} source={require('../images/Icons/calendarIcon.png')}/>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={this.setWeekDisplay}
+                        onPress={setWeekDisplay}
                     >
                         <View style={styles.navBarButton}>
                             <Image style={{height: 20, width: 20}} source={require('../images/Icons/homeIcon.png')}/>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={this.setInputDisplay}
+                        onPress={setInputDisplay}
                     >
                         <View style={styles.navBarButton}>
                             <Image style={{height: 20, width: 23.4}} source={require('../images/Icons/checkBoxIcon.png')}/>
