@@ -21,7 +21,6 @@ export class InputScreen extends React.Component {
         inputText3: "",
         inputText4: "",
         priorityNum: "",
-        itemValue: "",
         itemIndex: "",
     };
 
@@ -41,75 +40,82 @@ export class InputScreen extends React.Component {
                 <View style={styles.contentContainer}>
                     <View style={{flexDirection: 'row'}}>
                         <View style={styles.optionContainer}>
-                            <Text style={styles.optionTitle}>
-                                Type
+                            <Text style={{fontSize: 15}}>
+                                Subject
                             </Text>
                         </View>
                         <View style={styles.optionInputContainer}>
-                            <View style={styles.optionInput}>
-                                <TextInput
-                                    style={styles.optionInputText}
-                                    onChangeText={(inputText1) => this.setState({inputText1})}
-                                    placeholder="Enter assignment type"
-                                    value ={this.state.inputText1}
-                                />
-                            </View>
+                            <TextInput
+                                style={styles.optionInput}
+                                onChangeText={(inputText1) => this.setState({inputText1})}
+                                placeholder="Enter assignment type"
+                                value ={this.state.inputText1}
+                            />
                         </View>
                     </View>
                     <View style={{flexDirection: 'row'}}>
                         <View style={styles.optionContainer}>
-                            <Text style={styles.optionTitle}>
+                            <Text style={{fontSize: 15}}>
                                 Name
                             </Text>
                         </View>
                         <View style={styles.optionInputContainer}>
-                            <View style={styles.optionInput}>
-                                <TextInput
-                                    style={styles.optionInputText}
-                                    onChangeText={(inputText2) => this.setState({inputText2})}
-                                    placeholder="Enter name of assignment"
-                                    value ={this.state.inputText2}
-                                />
-                            </View>
+                            <TextInput
+                                style={styles.optionInput}
+                                onChangeText={(inputText2) => this.setState({inputText2})}
+                                placeholder="Enter name of assignment"
+                                value ={this.state.inputText2}
+                            />
                         </View>
                     </View>
                     <View style={{flexDirection: 'row'}}>
                         <View style={styles.optionContainer}>
-                            <Text style={styles.optionTitle}>
+                            <Text style={{fontSize: 15}}>
                                 Due Date
                             </Text>
                         </View>
                         <View style={styles.optionInputContainer}>
-                            <View style={styles.optionInput}>
-                                <TextInput
-                                    style={styles.optionInputText}
-                                    onChangeText={(inputText3) => this.setState({inputText3})}
-                                    placeholder="Enter due date"
-                                    value ={this.state.inputText3}
-                                />
-                            </View>
+                            <TextInput
+                                style={styles.optionInput}
+                                onChangeText={(inputText3) => this.setState({inputText3})}
+                                placeholder="mm/dd/yyyy"
+                                value ={this.state.inputText3}
+                            />
                         </View>
                     </View>
                     <View style={{flexDirection: 'row'}}>
                         <View style={styles.optionContainer}>
-                            <Text style={styles.optionTitle}>
+                            <Text style={{fontSize: 15}}>
+                                Estimated Time
+                            </Text>
+                        </View>
+                        <View style={styles.optionInputContainer}>
+                            <TextInput
+                                style={styles.optionInput}
+                                onChangeText={(inputText4) => this.setState({inputText4})}
+                                placeholder="Time to finish assignment (in min)"
+                                value ={this.state.inputText4}
+                            />
+                        </View>
+                    </View>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={styles.optionContainer}>
+                            <Text style={{fontSize: 15}}>
                                 Priority
                             </Text>
                         </View>
                         <View style={styles.optionInputContainer}>
-                            <View style={styles.optionInput}>
-                                <Picker
-                                    selectedValue={this.state.priorityNum}
-                                    style={styles.optionInput}
-                                    onValueChange={(itemValue, itemIndex) => this.setState({itemValue})}
-                                >
-                                    <Picker.Item label="1" value="1"/>
-                                    <Picker.Item label="2" value="2"/>
-                                    <Picker.Item label="3" value="3"/>
-                                    <Picker.Item label="4" value="4"/>
-                                    <Picker.Item label="5" value="5"/>
-                                </Picker>
-                            </View>
+                            <Picker
+                                selectedValue={this.state.priorityNum}
+                                style={styles.optionInput}
+                                onValueChange={(priorityNum, itemIndex) => this.setState({priorityNum})}
+                            >
+                                <Picker.Item label="1" value="1"/>
+                                <Picker.Item label="2" value="2"/>
+                                <Picker.Item label="3" value="3"/>
+                                <Picker.Item label="4" value="4"/>
+                                <Picker.Item label="5" value="5"/>
+                            </Picker>
                         </View>
                     </View>
                 </View>
@@ -154,29 +160,19 @@ const styles = StyleSheet.create({
         width: deviceWidth/3,
         alignItems: 'flex-end',
         justifyContent: 'flex-end',
-        paddingRight: 10,
+        paddingRight: 7,
         paddingBottom: 15,
         
     },
-    dropdownMenu: {
-        flexDirection: 'row',
-        height: 80,
-        width: 120,
-        alignItems: 'flex-end',
-        justifyContent: 'flex-end',
-        paddingRight: 10,
-        paddingBottom: 15,
-    },
     optionTitle: {
-        fontSize: 20,
+        fontSize: 15,
     },
     optionInputContainer: {
         height: 84,
         width: deviceWidth/3*2,
         alignItems: 'flex-start',
         justifyContent: 'flex-end',
-        padding: 10,
-        borderWidth: 1,
+        padding: 7,
     },
     optionInput: {
         height: 40,
@@ -185,9 +181,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         justifyContent: 'center',
         padding: 3,
-    },
-    optionInputText: {
-        fontSize: 17,
+        fontSize: 14,
         color: '#979797',
     },
 });
