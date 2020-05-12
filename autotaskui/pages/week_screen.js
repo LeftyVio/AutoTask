@@ -17,20 +17,29 @@ let deviceWidth = Dimensions.get("window").width;
 let tasksByDay;
 
 let today = moment();
-let todayTitle = today.format("MMM DD");
-let week = today.add(6, "days");
-let weekTitle = week.format("MMM DD");
 let todayStr = today.format("YYYY-MM-DD");
 let todayDate = today.format("dddd, MM/DD");
-let tomorrow = today.add(1, "days");
+let tomorrow = moment().add(1, "days");
+let tomorowStr = tomorrow.format("YYYY-MM-DD");
 let tomorrowDate = tomorrow.format("dddd, MM/DD");
-let day3 = today.add(2, "days");
+let day3 = moment().add(2, "days");
+let day3Str = day3.format("YYYY-MM-DD");
 let day3Date = day3.format("dddd, MM/DD");
-let day4 = today.add(2, "days");
+let day4 = moment().add(3, "days");
+let day4Str = day4.format("YYYY-MM-DD");
 let day4Date = day4.format("dddd, MM/DD");
-let day5 = today.add(2, "days");
+let day5 = moment().add(4, "days");
+let day5Str = day5.format("YYYY-MM-DD");
 let day5Date = day5.format("dddd, MM/DD");
+let day6 = moment().add(5, "days");
+let day6Str = day6.format("YYYY-MM-DD");
+let day6Date = day6.format("dddd, MM/DD");
+let week = moment().add(6, "days");
 let weekDate = week.format("dddd, MM/DD");
+let weekStr = today.format("YYYY-MM-DD");
+
+let todayTitle = today.format("MMM DD");
+let weekTitle = week.format("MMM DD");
 
 export async function fetchClassesForWeek() {
   // get today's date, get next weeks date, for loop through saved stuff into arrays by date, set tasksByDay
@@ -205,16 +214,16 @@ export class WeekScreen extends React.Component {
                     <Text style={styles.yellowText}>End Time</Text>
                   </View>
                   <View style={styles.wTask}>
-                    <Text style={{ fontSize: 15 }}>{day.workType}</Text>
+                    <Text style={{fontSize: 15}}>{item.name}</Text>
                   </View>
                 </View>
 
                 <View style={styles.deadline}>
                   <View style={styles.times}>
-                    <Text style={styles.redText}>{day.deadlineTime}</Text>
+                    <Text style={styles.redText}>{item.dueDate}</Text>
                   </View>
                   <View style={styles.dTask}>
-                    <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                    <Text style={{fontSize: 15, fontWeight: "bold"}}>
                       {day.deadlineType}
                     </Text>
                   </View>
