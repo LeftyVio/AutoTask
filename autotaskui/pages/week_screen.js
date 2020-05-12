@@ -16,6 +16,23 @@ let deviceWidth = Dimensions.get("window").width;
 
 let tasksByDay = {};
 
+let today = moment();
+let todayTitle = today.format("MMM DD");
+let week = today.add(6, "days");
+let weekTitle = week.format("MMM DD");
+
+let todayDate = today.format("dddd, MM/DD");
+let tomorrow = today.add(1, "days");
+let tomorrowDate = tomorrow.format("dddd, MM/DD");
+let day3 = today.add(2, "days");
+let day3Date = day3.format("dddd, MM/DD");
+let day4 = today.add(2, "days");
+let day4Date = day4.format("dddd, MM/DD");
+let day5 = today.add(2, "days");
+let day5Date = day5.format("dddd, MM/DD");
+let weekDate = week.format("dddd, MM/DD");
+
+
 export async function fetchClassesForWeek() {
   // get today's date, get next weeks date, for loop through saved stuff into arrays by date, set tasksByDay
   let today = moment();
@@ -45,7 +62,7 @@ export async function fetchClassesForWeek() {
 }
 
 export class WeekScreen extends React.Component {
-  async componentDidMount() {
+  async UNSAFE_componentWillMount() {
     await fetchClassesForWeek();
     while(tasksByDay == undefined || tasksByDay == {}) { // sadly, this is the most effective way ive found to get this to work
 
@@ -152,34 +169,33 @@ export class WeekScreen extends React.Component {
               justifyContent: "center",
             }}
           >
-            <Text style={styles.sub}>Jan</Text>
-            <Text style={styles.title}>12-18</Text>
+            <Text style={styles.title}>{todayTitle}~{weekTitle}</Text>
           </View>
         </View>
+
         <View style={styles.contentContainer}>
           <ScrollView>
-            {this.state.week.map((day) => (
+            {tasksByDay[today.format("YYYY-MM-DD")].map(item => (
               <View>
-                <View style={{ flexDirection: "row", marginTop: 15 }}>
+                <View style={{flexDirection: "row", marginTop: 15}}>
                   <View style={styles.dayTitle}>
-                    <Text style={styles.dayText}>{day.name}</Text>
+                    <Text style={styles.dayText}>{todayDate}</Text>
                   </View>
 
                   <View style={styles.boxes}>
-                    <View style={styles.yellow} />
-                    <View style={styles.red} />
+                    <View style={styles.yellowBox}/>
+                    <View style={styles.redBox}/>
                   </View>
                 </View>
 
                 <View style={styles.work}>
                   <View style={styles.times}>
-                    <Text style={styles.yellowText}>{day.workTime1}</Text>
+                    <Text style={styles.yellowText}>Start Time</Text>
                     <Text style={styles.yellowText}>|</Text>
-                    <Text style={styles.yellowText}>{day.workTime2}</Text>
+                    <Text style={styles.yellowText}>End Time</Text>
                   </View>
-
                   <View style={styles.wTask}>
-                    <Text style={{ fontSize: 15 }}>{day.workType}</Text>
+                    <Text style={{fontSize: 15}}>{day.workType}</Text>
                   </View>
                 </View>
 
@@ -188,7 +204,7 @@ export class WeekScreen extends React.Component {
                     <Text style={styles.redText}>{day.deadlineTime}</Text>
                   </View>
                   <View style={styles.dTask}>
-                    <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                    <Text style={{fontSize: 15, fontWeight: "bold"}}>
                       {day.deadlineType}
                     </Text>
                   </View>
@@ -222,11 +238,6 @@ const styles = StyleSheet.create({
   title: {
     color: "white",
     fontSize: 25,
-    paddingLeft: 20,
-  },
-  sub: {
-    color: "white",
-    fontSize: 25,
   },
 
   contentContainer: {
@@ -238,38 +249,43 @@ const styles = StyleSheet.create({
   },
 
   dayTitle: {
-    marginTop: 15,
-    marginLeft: 15,
-    //marginBottom: 15,
-    //flexDirection: 'row',
     height: deviceHeight / 15,
-    width: (deviceWidth / 5) * 3,
+    width: (deviceWidth / 7) * 4,
+    paddingLeft: 20,
+    fontSize: 10,
+    justifyContent: "center",
+    //borderWidth: 1
   },
   dayText: {
     fontSize: 20,
   },
   boxes: {
-    marginTop: 15,
-    //marginLeft: 15,
     flexDirection: "row",
     alignItems: "center",
     height: deviceHeight / 15,
-    width: (deviceWidth / 5) * 2,
+    width: (deviceWidth / 7) * 3,
+    //borderWidth: 1
   },
-  yellow: {
+  yellowBox: {
     marginLeft: 15,
     height: deviceWidth / 15,
     width: deviceWidth / 15,
     backgroundColor: "#fec20f",
   },
-  red: {
+  redBox: {
     marginLeft: 15,
     height: deviceWidth / 15,
     width: deviceWidth / 15,
     backgroundColor: "#ff5757",
   },
+  work: {
+    flexDirection: "row",
+    //borderWidth: 1
+  },
   times: {
     width: deviceWidth / 2,
+    paddingLeft: 45,
+    //borderWidth: 1
   },
   yellowText: {
     color: "#fec20f",
@@ -282,11 +298,17 @@ const styles = StyleSheet.create({
   wTask: {
     fontSize: 15,
     width: deviceWidth / 2,
+   // borderWidth: 1
+  },
+  deadline: {
+    flexDirection: "row",
+    //borderWidth: 1
   },
   dTask: {
     fontSize: 15,
     width: deviceWidth / 2,
     fontStyle: "bold",
+    //borderWidth: 1
   },
   navBar: {
     flex: 3,

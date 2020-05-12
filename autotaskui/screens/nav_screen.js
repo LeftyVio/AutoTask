@@ -15,8 +15,8 @@ let deviceWidth = Dimensions.get('window').width;
 export class NavScreen extends React.Component {
     state = {
         calendarDisplay: 'none',
-        weekDisplay: 'none',
-        inputDisplay: 'block',
+        weekDisplay: 'block',
+        inputDisplay: 'none',
         settingsDisplay: 'none',
     };
       
