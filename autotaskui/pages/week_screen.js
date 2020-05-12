@@ -14,6 +14,8 @@ import moment from "moment";
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
+let that;
+
 let tasksByDay;
 
 let today = moment();
@@ -73,10 +75,12 @@ export async function fetchClassesForWeek() {
   
   tasksByDay = temp;
   console.log(tasksByDay);
+  that.forceUpdate();
 }
 
 export class WeekScreen extends React.Component {
   async UNSAFE_componentWillMount() {
+    that = this;
     await fetchClassesForWeek();
     while (tasksByDay == undefined || tasksByDay == {}) {
       // sadly, this is the most effective way ive found to get this to work
@@ -224,7 +228,7 @@ export class WeekScreen extends React.Component {
                   </View>
                   <View style={styles.dTask}>
                     <Text style={{fontSize: 15, fontWeight: "bold"}}>
-                      {day.deadlineType}
+                      deadline
                     </Text>
                   </View>
                 </View>
