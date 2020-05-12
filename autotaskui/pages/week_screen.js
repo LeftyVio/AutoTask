@@ -14,13 +14,13 @@ import moment from "moment";
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
-let tasksByDay = {};
+let tasksByDay;
 
 let today = moment();
 let todayTitle = today.format("MMM DD");
 let week = today.add(6, "days");
 let weekTitle = week.format("MMM DD");
-
+let todayStr = today.format("YYYY-MM-DD");
 let todayDate = today.format("dddd, MM/DD");
 let tomorrow = today.add(1, "days");
 let tomorrowDate = tomorrow.format("dddd, MM/DD");
@@ -31,7 +31,6 @@ let day4Date = day4.format("dddd, MM/DD");
 let day5 = today.add(2, "days");
 let day5Date = day5.format("dddd, MM/DD");
 let weekDate = week.format("dddd, MM/DD");
-
 
 export async function fetchClassesForWeek() {
   // get today's date, get next weeks date, for loop through saved stuff into arrays by date, set tasksByDay
@@ -47,25 +46,31 @@ export async function fetchClassesForWeek() {
     }
   //*/
   let dateTempPre = today.subtract(1, "days");
-  today.add(1, "days");
   for (let i = 0; i < 7; i++) {
     let dateTemp = dateTempPre.add(1, "days");
-    let tasksTemp = await TaskStorage.getAllTasks(dateTemp.format("YYYY-MM-DD"));
-    if (tasksTemp == undefined || tasksTemp == null || tasksTemp === "[object Object]") {
-      tasksTemp = {tasks: []};
+    let tasksTemp = await TaskStorage.getAllTasks(
+      dateTemp.format("YYYY-MM-DD")
+    );
+    if (
+      tasksTemp == undefined ||
+      tasksTemp == null ||
+      tasksTemp === "[object Object]"
+    ) {
+      tasksTemp = { tasks: [] };
     }
-    let dayTasksTemp = {[dateTemp.format("YYYY-MM-DD")]: tasksTemp.tasks};
+    let dayTasksTemp = { [dateTemp.format("YYYY-MM-DD")]: tasksTemp.tasks };
     temp = Object.assign(temp, dayTasksTemp);
   }
-  console.log(temp)
+  
   tasksByDay = temp;
+  console.log(tasksByDay);
 }
 
 export class WeekScreen extends React.Component {
   async UNSAFE_componentWillMount() {
     await fetchClassesForWeek();
-    while(tasksByDay == undefined || tasksByDay == {}) { // sadly, this is the most effective way ive found to get this to work
-
+    while (tasksByDay == undefined || tasksByDay == {}) {
+      // sadly, this is the most effective way ive found to get this to work
     }
     this.forceUpdate();
   }
@@ -146,6 +151,9 @@ export class WeekScreen extends React.Component {
   };
 
   render() {
+    if (tasksByDay == undefined || tasksByDay == null || tasksByDay == {}) {
+      return <View style={styles.container} />;
+    } else {
     return (
       <View style={styles.container}>
         <View style={styles.topBar}>
@@ -169,22 +177,24 @@ export class WeekScreen extends React.Component {
               justifyContent: "center",
             }}
           >
-            <Text style={styles.title}>{todayTitle}~{weekTitle}</Text>
+            <Text style={styles.title}>
+              {todayTitle}~{weekTitle}
+            </Text>
           </View>
         </View>
 
         <View style={styles.contentContainer}>
           <ScrollView>
-            {tasksByDay[today.format("YYYY-MM-DD")].map(item => (
+            {tasksByDay[todayStr].map((item) => (
               <View>
-                <View style={{flexDirection: "row", marginTop: 15}}>
+                <View style={{ flexDirection: "row", marginTop: 15 }}>
                   <View style={styles.dayTitle}>
                     <Text style={styles.dayText}>{todayDate}</Text>
                   </View>
 
                   <View style={styles.boxes}>
-                    <View style={styles.yellowBox}/>
-                    <View style={styles.redBox}/>
+                    <View style={styles.yellowBox} />
+                    <View style={styles.redBox} />
                   </View>
                 </View>
 
@@ -195,7 +205,7 @@ export class WeekScreen extends React.Component {
                     <Text style={styles.yellowText}>End Time</Text>
                   </View>
                   <View style={styles.wTask}>
-                    <Text style={{fontSize: 15}}>{day.workType}</Text>
+                    <Text style={{ fontSize: 15 }}>{day.workType}</Text>
                   </View>
                 </View>
 
@@ -204,7 +214,7 @@ export class WeekScreen extends React.Component {
                     <Text style={styles.redText}>{day.deadlineTime}</Text>
                   </View>
                   <View style={styles.dTask}>
-                    <Text style={{fontSize: 15, fontWeight: "bold"}}>
+                    <Text style={{ fontSize: 15, fontWeight: "bold" }}>
                       {day.deadlineType}
                     </Text>
                   </View>
@@ -216,6 +226,7 @@ export class WeekScreen extends React.Component {
       </View>
     );
   }
+}
 }
 
 const styles = StyleSheet.create({
@@ -298,7 +309,7 @@ const styles = StyleSheet.create({
   wTask: {
     fontSize: 15,
     width: deviceWidth / 2,
-   // borderWidth: 1
+    // borderWidth: 1
   },
   deadline: {
     flexDirection: "row",
