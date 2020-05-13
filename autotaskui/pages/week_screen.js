@@ -634,6 +634,7 @@ const styles = StyleSheet.create({
   },
   deadline: {
     flexDirection: "row",
+    marginBottom: 10,
     //borderWidth: 1
   },
   dTask: {

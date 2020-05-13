@@ -105,6 +105,7 @@ export class InputScreen extends React.Component {
             <Text style={styles.title}>New Task</Text>
           </View>
         </View>
+        
         <View style={styles.contentContainer}>
           <View style={{ flexDirection: "row" }}>
             <View style={styles.optionContainer}>

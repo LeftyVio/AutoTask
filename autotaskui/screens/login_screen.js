@@ -1,27 +1,14 @@
 import React from 'react';
 import { Text, View, StyleSheet, ScrollView, Dimensions, Image, TouchableHighlight, TextInput, Button, Alert } from 'react-native';
 
-import { Google } from "expo";
-
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
 
 
 export class LoginScreen extends React.Component {
     state = {
-        logUser: 'Username or email',
+        logUser: '',
         logPass: '',
-    };
-
-    _handleTextChange = inputValue => {
-        this.setState({ inputValue });
-    };
-
-    _handleButtonPress = () => {
-        Alert.alert(
-            'Button pressed!',
-            'You did it!',
-        );
     };
 
     render() {
@@ -38,30 +25,23 @@ export class LoginScreen extends React.Component {
                     </Text>
                     <TextInput style={styles.inputBars}
                         onChangeText={(logUser) => this.setState({ logUser })}
+                        placeholder="Username or email"
                         value={this.state.logUser}
                     />
                     <TextInput style={styles.inputBars}
                         onChangeText={(logPass) => this.setState({ logPass })}
                         value={this.state.logPass}
+                        placeholder="Password"
                         secureTextEntry={true}
                     />
                     <View>
                         <Button style={styles.buttons}
                             title="Log in"
-                            onPress={this.logIn}
+                            onPress={() => this.props.navigation.navigate("NavScreen")}
                         />
                     </View>
 
-                    <View style={styles.googleContain}>
-                        <Image
-                            source={{ uri: 'https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png' }}
-                            style={styles.googleLogo}
-                        />
-                        <Button style={styles.buttons}
-                            title="Login with Google"
-                            onPress={this._handleGoogleLogin}
-                        />
-                    </View>
+                    
 
                     <Text style={styles.text2}>
                         Haven't got an account?
@@ -110,7 +90,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     text1: {
-        fontSize: 16,
+        fontSize: 18,
         margin: 10,
     },
     text2: {
@@ -119,29 +99,17 @@ const styles = StyleSheet.create({
     },
     inputBars: {
         width: 3 * (deviceWidth / 4),
-        height: 25,
+        height: 30,
         borderWidth: 1,
         margin: 10,
         borderRadius: 7,
-    },
-    googleContain: {
-        width: 2 * (deviceWidth / 3),
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        margin: 10,
-        borderRadius: 10,
+        paddingLeft: 3,
     },
     buttons: {
         width: 1.75 * (deviceWidth / 3),
         height: 25,
         margin: 10,
         borderRadius: 5,
-    },
-    googleLogo: {
-        height: 25,
-        width: 25,
-        margin: 5,
     },
     signUpText: {
         fontSize: 16,
