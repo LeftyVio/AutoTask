@@ -265,12 +265,10 @@ export class WeekScreen extends React.Component {
                       <View style={styles.dTask}>
                         <Text style={{ fontSize: 15, fontWeight: "bold" }}>
                           {moment(item.dueDate)
-                            .add(1, "days")
                             .calendar()
                             .substring(
                               0,
                               moment(item.dueDate)
-                                .add(1, "days")
                                 .calendar()
                                 .indexOf(" ")
                             )}
@@ -320,12 +318,10 @@ export class WeekScreen extends React.Component {
                       <View style={styles.dTask}>
                         <Text style={{ fontSize: 15, fontWeight: "bold" }}>
                           {moment(item.dueDate)
-                            .add(1, "days")
                             .calendar()
                             .substring(
                               0,
                               moment(item.dueDate)
-                                .add(1, "days")
                                 .calendar()
                                 .indexOf(" ")
                             )}
@@ -375,12 +371,10 @@ export class WeekScreen extends React.Component {
                       <View style={styles.dTask}>
                         <Text style={{ fontSize: 15, fontWeight: "bold" }}>
                           {moment(item.dueDate)
-                            .add(1, "days")
                             .calendar()
                             .substring(
                               0,
                               moment(item.dueDate)
-                                .add(1, "days")
                                 .calendar()
                                 .indexOf(" ")
                             )}
@@ -430,12 +424,10 @@ export class WeekScreen extends React.Component {
                       <View style={styles.dTask}>
                         <Text style={{ fontSize: 15, fontWeight: "bold" }}>
                           {moment(item.dueDate)
-                            .add(1, "days")
                             .calendar()
                             .substring(
                               0,
                               moment(item.dueDate)
-                                .add(1, "days")
                                 .calendar()
                                 .indexOf(" ")
                             )}
@@ -485,12 +477,10 @@ export class WeekScreen extends React.Component {
                       <View style={styles.dTask}>
                         <Text style={{ fontSize: 15, fontWeight: "bold" }}>
                           {moment(item.dueDate)
-                            .add(1, "days")
                             .calendar()
                             .substring(
                               0,
                               moment(item.dueDate)
-                                .add(1, "days")
                                 .calendar()
                                 .indexOf(" ")
                             )}
@@ -540,12 +530,10 @@ export class WeekScreen extends React.Component {
                       <View style={styles.dTask}>
                         <Text style={{ fontSize: 15, fontWeight: "bold" }}>
                           {moment(item.dueDate)
-                            .add(1, "days")
                             .calendar()
                             .substring(
                               0,
                               moment(item.dueDate)
-                                .add(1, "days")
                                 .calendar()
                                 .indexOf(" ")
                             )}
