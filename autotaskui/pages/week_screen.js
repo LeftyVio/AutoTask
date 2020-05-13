@@ -11,6 +11,8 @@ import {
 import { TaskStorage } from "../classes/task_storage";
 import moment from "moment";
 
+var _ = require("lodash");
+
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
@@ -78,18 +80,42 @@ export async function fetchClassesForWeek() {
         return parseInt(a.priority) - parseInt(b.priority);
       }),
     };
+    if (dayTasksTemp[dateTemp.format("YYYY-MM-DD")][0]) {
+      assignmentStart = moment(assignmentDay + "T16:00:00-08:00").subtract(
+        dayTasksTemp[dateTemp.format("YYYY-MM-DD")][0]["eta"],
+        "minutes"
+      );
+      assignmentEnd = moment(assignmentDay + "T16:00:00-08:00")
+        .add(dayTasksTemp[dateTemp.format("YYYY-MM-DD")][0]["eta"], "minutes")
+        .subtract(
+          dayTasksTemp[dateTemp.format("YYYY-MM-DD")][0]["eta"],
+          "minutes"
+        );
+      assignmentStart.add(
+        dayTasksTemp[dateTemp.format("YYYY-MM-DD")][0]["eta"],
+        "minutes"
+      );
+    }
 
-    assignmentStart = moment(assignmentDay + "T16:00:00-08:00");
-    assignmentEnd = moment(assignmentDay + "T16:00:00-08:00").add(
-      dayTasksTemp[dateTemp.format("YYYY-MM-DD")][i],
-      "minutes"
-    );
-    for (let j = 0; j < dayTasksTemp[dateTemp.format("YYYY-MM-DD")].length; j++) {
-      dayTasksTemp[dateTemp.format("YYYY-MM-DD")][j]["assignmentStart"] = assignmentStart;
-      dayTasksTemp[dateTemp.format("YYYY-MM-DD")][j]["assignmentEnd"] = assignmentEnd;
-      assignmentStart.add(dayTasksTemp[dateTemp.format("YYYY-MM-DD")][j]["eta"]);
-      assignmentEnd = assignmentStart.add(dayTasksTemp[dateTemp.format("YYYY-MM-DD")][i],"minutes");
-      assignmentStart.subtract(dayTasksTemp[dateTemp.format("YYYY-MM-DD")][i],"minutes");
+    for (
+      let j = 0;
+      j < dayTasksTemp[dateTemp.format("YYYY-MM-DD")].length;
+      j++
+    ) {
+      assignmentEnd.add(
+        dayTasksTemp[dateTemp.format("YYYY-MM-DD")][j]["eta"],
+        "minutes"
+      );
+      dayTasksTemp[dateTemp.format("YYYY-MM-DD")][j][
+        "assignmentStart"
+      ] = _.cloneDeep(assignmentStart);
+      dayTasksTemp[dateTemp.format("YYYY-MM-DD")][j][
+        "assignmentEnd"
+      ] = _.cloneDeep(assignmentEnd);
+      assignmentStart.add(
+        dayTasksTemp[dateTemp.format("YYYY-MM-DD")][j]["eta"],
+        "minutes"
+      );
     }
     console.log(dayTasksTemp);
     temp = Object.assign(temp, dayTasksTemp);
@@ -159,9 +185,13 @@ export class WeekScreen extends React.Component {
                   <View>
                     <View style={styles.work}>
                       <View style={styles.times}>
-                        <Text style={styles.yellowText}>{item.assignmentStart.format("hh:mm A")}</Text>
+                        <Text style={styles.yellowText}>
+                          {item.assignmentStart.format("hh:mm A")}
+                        </Text>
                         <Text style={styles.yellowText}>|</Text>
-                        <Text style={styles.yellowText}>{item.assignmentEnd.format("hh:mm A")}</Text>
+                        <Text style={styles.yellowText}>
+                          {item.assignmentEnd.format("hh:mm A")}
+                        </Text>
                       </View>
                       <View style={styles.wTask}>
                         <Text style={{ fontSize: 15 }}>
@@ -179,7 +209,16 @@ export class WeekScreen extends React.Component {
                       </View>
                       <View style={styles.dTask}>
                         <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-                          {item.dueDate}
+                          {moment(item.dueDate)
+                            .add(1, "days")
+                            .calendar()
+                            .substring(
+                              0,
+                              moment(item.dueDate)
+                                .add(1, "days")
+                                .calendar()
+                                .indexOf(" ")
+                            )}
                         </Text>
                       </View>
                     </View>
@@ -201,9 +240,13 @@ export class WeekScreen extends React.Component {
                   <View>
                     <View style={styles.work}>
                       <View style={styles.times}>
-                        <Text style={styles.yellowText}>{item.assignmentStart.format("hh:mm A")}</Text>
+                        <Text style={styles.yellowText}>
+                          {item.assignmentStart.format("hh:mm A")}
+                        </Text>
                         <Text style={styles.yellowText}>|</Text>
-                        <Text style={styles.yellowText}>{item.assignmentEnd.format("hh:mm A")}</Text>
+                        <Text style={styles.yellowText}>
+                          {item.assignmentEnd.format("hh:mm A")}
+                        </Text>
                       </View>
                       <View style={styles.wTask}>
                         <Text style={{ fontSize: 15 }}>
@@ -221,7 +264,16 @@ export class WeekScreen extends React.Component {
                       </View>
                       <View style={styles.dTask}>
                         <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-                          {item.dueDate}
+                          {moment(item.dueDate)
+                            .add(1, "days")
+                            .calendar()
+                            .substring(
+                              0,
+                              moment(item.dueDate)
+                                .add(1, "days")
+                                .calendar()
+                                .indexOf(" ")
+                            )}
                         </Text>
                       </View>
                     </View>
@@ -243,9 +295,13 @@ export class WeekScreen extends React.Component {
                   <View>
                     <View style={styles.work}>
                       <View style={styles.times}>
-                        <Text style={styles.yellowText}>{item.assignmentStart.format("hh:mm A")}</Text>
+                        <Text style={styles.yellowText}>
+                          {item.assignmentStart.format("hh:mm A")}
+                        </Text>
                         <Text style={styles.yellowText}>|</Text>
-                        <Text style={styles.yellowText}>{item.assignmentEnd.format("hh:mm A")}</Text>
+                        <Text style={styles.yellowText}>
+                          {item.assignmentEnd.format("hh:mm A")}
+                        </Text>
                       </View>
                       <View style={styles.wTask}>
                         <Text style={{ fontSize: 15 }}>
@@ -263,7 +319,16 @@ export class WeekScreen extends React.Component {
                       </View>
                       <View style={styles.dTask}>
                         <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-                          {item.dueDate}
+                          {moment(item.dueDate)
+                            .add(1, "days")
+                            .calendar()
+                            .substring(
+                              0,
+                              moment(item.dueDate)
+                                .add(1, "days")
+                                .calendar()
+                                .indexOf(" ")
+                            )}
                         </Text>
                       </View>
                     </View>
@@ -285,9 +350,13 @@ export class WeekScreen extends React.Component {
                   <View>
                     <View style={styles.work}>
                       <View style={styles.times}>
-                        <Text style={styles.yellowText}>{item.assignmentStart.format("hh:mm A")}</Text>
+                        <Text style={styles.yellowText}>
+                          {item.assignmentStart.format("hh:mm A")}
+                        </Text>
                         <Text style={styles.yellowText}>|</Text>
-                        <Text style={styles.yellowText}>{item.assignmentEnd.format("hh:mm A")}</Text>
+                        <Text style={styles.yellowText}>
+                          {item.assignmentEnd.format("hh:mm A")}
+                        </Text>
                       </View>
                       <View style={styles.wTask}>
                         <Text style={{ fontSize: 15 }}>
@@ -305,7 +374,16 @@ export class WeekScreen extends React.Component {
                       </View>
                       <View style={styles.dTask}>
                         <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-                          {item.dueDate}
+                          {moment(item.dueDate)
+                            .add(1, "days")
+                            .calendar()
+                            .substring(
+                              0,
+                              moment(item.dueDate)
+                                .add(1, "days")
+                                .calendar()
+                                .indexOf(" ")
+                            )}
                         </Text>
                       </View>
                     </View>
@@ -327,9 +405,13 @@ export class WeekScreen extends React.Component {
                   <View>
                     <View style={styles.work}>
                       <View style={styles.times}>
-                        <Text style={styles.yellowText}>{item.assignmentStart.format("hh:mm A")}</Text>
+                        <Text style={styles.yellowText}>
+                          {item.assignmentStart.format("hh:mm A")}
+                        </Text>
                         <Text style={styles.yellowText}>|</Text>
-                        <Text style={styles.yellowText}>{item.assignmentEnd.format("hh:mm A")}</Text>
+                        <Text style={styles.yellowText}>
+                          {item.assignmentEnd.format("hh:mm A")}
+                        </Text>
                       </View>
                       <View style={styles.wTask}>
                         <Text style={{ fontSize: 15 }}>
@@ -347,7 +429,16 @@ export class WeekScreen extends React.Component {
                       </View>
                       <View style={styles.dTask}>
                         <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-                          {item.dueDate}
+                          {moment(item.dueDate)
+                            .add(1, "days")
+                            .calendar()
+                            .substring(
+                              0,
+                              moment(item.dueDate)
+                                .add(1, "days")
+                                .calendar()
+                                .indexOf(" ")
+                            )}
                         </Text>
                       </View>
                     </View>
@@ -369,9 +460,13 @@ export class WeekScreen extends React.Component {
                   <View>
                     <View style={styles.work}>
                       <View style={styles.times}>
-                        <Text style={styles.yellowText}>{item.assignmentStart.format("hh:mm A")}</Text>
+                        <Text style={styles.yellowText}>
+                          {item.assignmentStart.format("hh:mm A")}
+                        </Text>
                         <Text style={styles.yellowText}>|</Text>
-                        <Text style={styles.yellowText}>{item.assignmentEnd.format("hh:mm A")}</Text>
+                        <Text style={styles.yellowText}>
+                          {item.assignmentEnd.format("hh:mm A")}
+                        </Text>
                       </View>
                       <View style={styles.wTask}>
                         <Text style={{ fontSize: 15 }}>
@@ -389,7 +484,16 @@ export class WeekScreen extends React.Component {
                       </View>
                       <View style={styles.dTask}>
                         <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-                          {item.dueDate}
+                          {moment(item.dueDate)
+                            .add(1, "days")
+                            .calendar()
+                            .substring(
+                              0,
+                              moment(item.dueDate)
+                                .add(1, "days")
+                                .calendar()
+                                .indexOf(" ")
+                            )}
                         </Text>
                       </View>
                     </View>
@@ -411,9 +515,13 @@ export class WeekScreen extends React.Component {
                   <View>
                     <View style={styles.work}>
                       <View style={styles.times}>
-                        <Text style={styles.yellowText}>{item.assignmentStart.format("hh:mm A")}</Text>
+                        <Text style={styles.yellowText}>
+                          {item.assignmentStart.format("hh:mm A")}
+                        </Text>
                         <Text style={styles.yellowText}>|</Text>
-                        <Text style={styles.yellowText}>{item.assignmentEnd.format("hh:mm A")}</Text>
+                        <Text style={styles.yellowText}>
+                          {item.assignmentEnd.format("hh:mm A")}
+                        </Text>
                       </View>
                       <View style={styles.wTask}>
                         <Text style={{ fontSize: 15 }}>
@@ -431,7 +539,16 @@ export class WeekScreen extends React.Component {
                       </View>
                       <View style={styles.dTask}>
                         <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-                          {item.dueDate}
+                          {moment(item.dueDate)
+                            .add(1, "days")
+                            .calendar()
+                            .substring(
+                              0,
+                              moment(item.dueDate)
+                                .add(1, "days")
+                                .calendar()
+                                .indexOf(" ")
+                            )}
                         </Text>
                       </View>
                     </View>
