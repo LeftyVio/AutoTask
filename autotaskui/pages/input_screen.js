@@ -61,6 +61,8 @@ export class InputScreen extends React.Component {
       dueDate: dueStr,
       eta: this.state.inputText4,
       priority: this.state.priorityNum,
+      assignmentStart: "",
+      assignmentEnd: ""
     };
 
     await TaskStorage.setTask(dateStr, temp);
