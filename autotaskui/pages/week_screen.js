@@ -80,21 +80,16 @@ export async function fetchClassesForWeek() {
     };
 
     assignmentStart = moment(assignmentDay + "T16:00:00-08:00");
-    assignmentEnd = assignmentStart.add(
+    assignmentEnd = moment(assignmentDay + "T16:00:00-08:00").add(
       dayTasksTemp[dateTemp.format("YYYY-MM-DD")][i],
       "minutes"
     );
-    for (
-      let j = 0;
-      j < dayTasksTemp[dateTemp.format("YYYY-MM-DD")].length;
-      j++
-    ) {
-      dayTasksTemp[dateTemp.format("YYYY-MM-DD")][j][
-        "assignmentStart"
-      ] = assignmentStart;
-      dayTasksTemp[dateTemp.format("YYYY-MM-DD")][j][
-        "assignmentEnd"
-      ] = assignmentEnd;
+    for (let j = 0; j < dayTasksTemp[dateTemp.format("YYYY-MM-DD")].length; j++) {
+      dayTasksTemp[dateTemp.format("YYYY-MM-DD")][j]["assignmentStart"] = assignmentStart;
+      dayTasksTemp[dateTemp.format("YYYY-MM-DD")][j]["assignmentEnd"] = assignmentEnd;
+      assignmentStart.add(dayTasksTemp[dateTemp.format("YYYY-MM-DD")][j]["eta"]);
+      assignmentEnd = assignmentStart.add(dayTasksTemp[dateTemp.format("YYYY-MM-DD")][i],"minutes");
+      assignmentStart.subtract(dayTasksTemp[dateTemp.format("YYYY-MM-DD")][i],"minutes");
     }
     console.log(dayTasksTemp);
     temp = Object.assign(temp, dayTasksTemp);
@@ -114,81 +109,6 @@ export class WeekScreen extends React.Component {
     }
     this.forceUpdate();
   }
-
-  state = {
-    week: [
-      {
-        name: "Sunday",
-        work: "true",
-        deadline: "true",
-        workTime1: "6:30 PM",
-        workTime2: "7:30 PM",
-        deadlineTime: "11:59 PM",
-        workType: "Exercise",
-        deadlineType: "ENGLISH PAPER",
-      },
-      {
-        name: "Monday",
-        work: "true",
-        deadline: "false",
-        workTime1: "6:30 PM",
-        workTime2: "7:30 PM",
-        deadlineTime: "11:59 PM",
-        workType: "Exercise",
-        deadlineType: "ENGLISH PAPER",
-      },
-      {
-        name: "Tuesday",
-        work: "true",
-        deadline: "false",
-        workTime1: "6:30 PM",
-        workTime2: "7:30 PM",
-        deadlineTime: "11:59 PM",
-        workType: "Exercise",
-        deadlineType: "ENGLISH PAPER",
-      },
-      {
-        name: "Wednesday",
-        work: "true",
-        deadline: "true",
-        workTime1: "6:30 PM",
-        workTime2: "7:30 PM",
-        deadlineTime: "11:59 PM",
-        workType: "Exercise",
-        deadlineType: "ENGLISH PAPER",
-      },
-      {
-        name: "Thursday",
-        work: "true",
-        deadline: "true",
-        workTime1: "6:30 PM",
-        workTime2: "7:30 PM",
-        deadlineTime: "11:59 PM",
-        workType: "Exercise",
-        deadlineType: "ENGLISH PAPER",
-      },
-      {
-        name: "Friday",
-        work: "false",
-        deadline: "true",
-        workTime1: "6:30 PM",
-        workTime2: "7:30 PM",
-        deadlineTime: "11:59 PM",
-        workType: "Exercise",
-        deadlineType: "ENGLISH PAPER",
-      },
-      {
-        name: "Saturday",
-        work: "false",
-        deadline: "false",
-        workTime1: "6:30 PM",
-        workTime2: "7:30 PM",
-        deadlineTime: "11:59 PM",
-        workType: "Exercise",
-        deadlineType: "ENGLISH PAPER",
-      },
-    ],
-  };
 
   render() {
     if (tasksByDay == undefined || tasksByDay == null || tasksByDay == {}) {
@@ -239,9 +159,9 @@ export class WeekScreen extends React.Component {
                   <View>
                     <View style={styles.work}>
                       <View style={styles.times}>
-                        <Text style={styles.yellowText}>Start Time</Text>
+                        <Text style={styles.yellowText}>{item.assignmentStart.format("hh:mm A")}</Text>
                         <Text style={styles.yellowText}>|</Text>
-                        <Text style={styles.yellowText}>End Time</Text>
+                        <Text style={styles.yellowText}>{item.assignmentEnd.format("hh:mm A")}</Text>
                       </View>
                       <View style={styles.wTask}>
                         <Text style={{ fontSize: 15 }}>
@@ -281,9 +201,9 @@ export class WeekScreen extends React.Component {
                   <View>
                     <View style={styles.work}>
                       <View style={styles.times}>
-                        <Text style={styles.yellowText}>Start Time</Text>
+                        <Text style={styles.yellowText}>{item.assignmentStart.format("hh:mm A")}</Text>
                         <Text style={styles.yellowText}>|</Text>
-                        <Text style={styles.yellowText}>End Time</Text>
+                        <Text style={styles.yellowText}>{item.assignmentEnd.format("hh:mm A")}</Text>
                       </View>
                       <View style={styles.wTask}>
                         <Text style={{ fontSize: 15 }}>
@@ -323,9 +243,9 @@ export class WeekScreen extends React.Component {
                   <View>
                     <View style={styles.work}>
                       <View style={styles.times}>
-                        <Text style={styles.yellowText}>Start Time</Text>
+                        <Text style={styles.yellowText}>{item.assignmentStart.format("hh:mm A")}</Text>
                         <Text style={styles.yellowText}>|</Text>
-                        <Text style={styles.yellowText}>End Time</Text>
+                        <Text style={styles.yellowText}>{item.assignmentEnd.format("hh:mm A")}</Text>
                       </View>
                       <View style={styles.wTask}>
                         <Text style={{ fontSize: 15 }}>
@@ -365,9 +285,9 @@ export class WeekScreen extends React.Component {
                   <View>
                     <View style={styles.work}>
                       <View style={styles.times}>
-                        <Text style={styles.yellowText}>Start Time</Text>
+                        <Text style={styles.yellowText}>{item.assignmentStart.format("hh:mm A")}</Text>
                         <Text style={styles.yellowText}>|</Text>
-                        <Text style={styles.yellowText}>End Time</Text>
+                        <Text style={styles.yellowText}>{item.assignmentEnd.format("hh:mm A")}</Text>
                       </View>
                       <View style={styles.wTask}>
                         <Text style={{ fontSize: 15 }}>
@@ -407,9 +327,9 @@ export class WeekScreen extends React.Component {
                   <View>
                     <View style={styles.work}>
                       <View style={styles.times}>
-                        <Text style={styles.yellowText}>Start Time</Text>
+                        <Text style={styles.yellowText}>{item.assignmentStart.format("hh:mm A")}</Text>
                         <Text style={styles.yellowText}>|</Text>
-                        <Text style={styles.yellowText}>End Time</Text>
+                        <Text style={styles.yellowText}>{item.assignmentEnd.format("hh:mm A")}</Text>
                       </View>
                       <View style={styles.wTask}>
                         <Text style={{ fontSize: 15 }}>
@@ -449,9 +369,9 @@ export class WeekScreen extends React.Component {
                   <View>
                     <View style={styles.work}>
                       <View style={styles.times}>
-                        <Text style={styles.yellowText}>Start Time</Text>
+                        <Text style={styles.yellowText}>{item.assignmentStart.format("hh:mm A")}</Text>
                         <Text style={styles.yellowText}>|</Text>
-                        <Text style={styles.yellowText}>End Time</Text>
+                        <Text style={styles.yellowText}>{item.assignmentEnd.format("hh:mm A")}</Text>
                       </View>
                       <View style={styles.wTask}>
                         <Text style={{ fontSize: 15 }}>
@@ -491,9 +411,9 @@ export class WeekScreen extends React.Component {
                   <View>
                     <View style={styles.work}>
                       <View style={styles.times}>
-                        <Text style={styles.yellowText}>Start Time</Text>
+                        <Text style={styles.yellowText}>{item.assignmentStart.format("hh:mm A")}</Text>
                         <Text style={styles.yellowText}>|</Text>
-                        <Text style={styles.yellowText}>End Time</Text>
+                        <Text style={styles.yellowText}>{item.assignmentEnd.format("hh:mm A")}</Text>
                       </View>
                       <View style={styles.wTask}>
                         <Text style={{ fontSize: 15 }}>
