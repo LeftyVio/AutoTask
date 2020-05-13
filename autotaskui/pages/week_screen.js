@@ -81,7 +81,9 @@ export async function fetchClassesForWeek() {
 
     assignmentStart = moment(assignmentDay + "T16:00:00-08:00")
     assignmentEnd = assignmentStart.add(dayTasksTemp[dateTemp.format("YYYY-MM-DD")][i], "minutes")
-    
+    dayTasksTemp[dateTemp.format("YYYY-MM-DD")][i].assignmentStart = assignmentStart;
+    dayTasksTemp[dateTemp.format("YYYY-MM-DD")][i].assignmentEnd = assignmentEnd;
+
     temp = Object.assign(temp, dayTasksTemp);
   }
   
@@ -561,7 +563,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   wTask: {
-    fontSize: 15,
     width: deviceWidth / 2,
     //borderWidth: 1
   },
@@ -570,7 +571,6 @@ const styles = StyleSheet.create({
     //borderWidth: 1
   },
   dTask: {
-    fontSize: 15,
     width: deviceWidth / 2,
     fontStyle: "bold",
     //borderWidth: 1
