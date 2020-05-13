@@ -5,46 +5,50 @@ import { StyleSheet,
          TouchableOpacity,
          Dimensions } from 'react-native';
 
-import { CalendarScreen } from '../pages/calendar_screen.js'
+import { SettingsScreen } from '../pages/settings_screen.js'
 import { WeekScreen } from '../pages/week_screen.js';
 import { InputScreen } from '../pages/input_screen.js';
+import { AboutScreen } from '../pages/about_screen.js';
 
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
 
 export class NavScreen extends React.Component {
     state = {
-        calendarDisplay: 'none',
         weekDisplay: 'block',
         inputDisplay: 'none',
         settingsDisplay: 'none',
+        aboutDisplay: 'none',
     };
-      
-    setCalendarDisplay = () => this.setState(state => ({
-        calendarDisplay: 'block',
-        weekDisplay: 'none',
-        inputDisplay: 'none',
-    }));
+    
     setWeekDisplay = () => this.setState(state => ({
-        calendarDisplay: 'none',
         weekDisplay: 'block',
         inputDisplay: 'none',
+        settingsDisplay: 'none',
+        aboutDisplay: 'none',
     }));
     setInputDisplay = () => this.setState(state => ({
-        calendarDisplay: 'none',
         weekDisplay: 'none',
         inputDisplay: 'block',
+        settingsDisplay: 'none',
+        aboutDisplay: 'none',
+    }));
+    setSettingsDisplay = () => this.setState(state => ({
+        weekDisplay: 'none',
+        inputDisplay: 'none',
+        settingsDisplay: 'block',
+        aboutDisplay: 'none',
+    }));
+    setAboutDisplay = () => this.setState(state => ({
+        weekDisplay: 'none',
+        inputDisplay: 'none',
+        settingsDisplay: 'none',
+        aboutDisplay: 'block',
     }));
 
     render() {
         return (
             <View style={styles.container}>
-                <View style={{display: this.state.calendarDisplay}}>
-                    <View style={styles.contentContainer}>
-                        <CalendarScreen/>
-                    </View>
-                </View>
-                
                 <View style={{display: this.state.weekDisplay}}>
                     <View style={styles.contentContainer}>
                         <WeekScreen/>
@@ -56,15 +60,20 @@ export class NavScreen extends React.Component {
                         <InputScreen/>
                     </View>
                 </View>
+
+                <View style={{display: this.state.settingsDisplay}}>
+                    <View style={styles.contentContainer}>
+                        <SettingsScreen/>
+                    </View>
+                </View>
                 
+                <View style={{display: this.state.aboutDisplay}}>
+                    <View style={styles.contentContainer}>
+                        <AboutScreen/>
+                    </View>
+                </View>
+
                 <View style={styles.navBar}>
-                    <TouchableOpacity
-                        onPress={this.setCalendarDisplay}
-                    >
-                        <View style={styles.navBarButton}>
-                            <Image style={{height: 20, width: 20}} source={require('../images/Icons/calendarIcon.png')}/>
-                        </View>
-                    </TouchableOpacity>
                     <TouchableOpacity
                         onPress={this.setWeekDisplay}
                     >
@@ -77,6 +86,20 @@ export class NavScreen extends React.Component {
                     >
                         <View style={styles.navBarButton}>
                             <Image style={{height: 20, width: 23.4}} source={require('../images/Icons/checkBoxIcon.png')}/>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={this.setSettingsDisplay}
+                    >
+                        <View style={styles.navBarButton}>
+                            <Image style={{height: 20, width: 20}} source={require('../images/Icons/calendarIcon.png')}/>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={this.setAboutDisplay}
+                    >
+                        <View style={styles.navBarButton}>
+                            <Image style={{height: 20, width: 20}} source={require('../images/Icons/calendarIcon.png')}/>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -102,7 +125,7 @@ const styles = StyleSheet.create({
   },
   navBarButton: {
     height: deviceHeight/11*0.75,
-    width: deviceWidth/3,
+    width: deviceWidth/4,
     alignItems: 'center',
     justifyContent: 'center',
 

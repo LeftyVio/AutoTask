@@ -1,15 +1,26 @@
 import React from 'react';
-import { Text, View, StyleSheet, ScrollView, Dimensions, Image, TouchableHighlight, TextInput, Button, Alert } from 'react-native';
+import { Text, View, StyleSheet, Dimensions, TouchableHighlight, TextInput, Button, Alert } from 'react-native';
 
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
-
 
 export class LoginScreen extends React.Component {
     state = {
         logUser: '',
         logPass: '',
     };
+
+    checkLogin(){
+        if(this.state.logUser == ""){
+            alert("Please enter a username or email.");
+            return;
+        } else if(this.state.logPass == ""){
+            alert("Please enter your password.");
+            return;
+        } else {
+            this.props.navigation.navigate("NavScreen");
+        }
+    }
 
     render() {
         return (
@@ -34,28 +45,27 @@ export class LoginScreen extends React.Component {
                         placeholder="Password"
                         secureTextEntry={true}
                     />
-                    <View>
-                        <Button style={styles.buttons}
-                            title="Log in"
-                            onPress={() => this.props.navigation.navigate("NavScreen")}
-                        />
-                    </View>
+                    <View style={{height: deviceHeight/30}}/>
+                    <Button style={styles.button}
+                        title="Log in"
+                        onPress={() => this.checkLogin()}
+                    />
 
-                    
-
-                    <Text style={styles.text2}>
-                        Haven't got an account?
-                    </Text>
-
-                    <TouchableHighlight
-                        onPress={() => {
-                            alert('You have signed up!')
-                        }}
-                    >
-                        <Text style={styles.signUpText}>
-                            Sign Up
+                    <View style={{marginTop: 20, alignItems: "center"}}>
+                        <Text style={styles.text2}>
+                            Don't have an account?
                         </Text>
-                    </TouchableHighlight>
+
+                        <TouchableHighlight
+                            onPress={() => {
+                                alert('You have signed up!')
+                            }}
+                        >
+                            <Text style={styles.signUpText}>
+                                Sign Up
+                            </Text>
+                        </TouchableHighlight>
+                    </View>
                 </View>
             </View>
         );
@@ -71,7 +81,7 @@ const styles = StyleSheet.create({
     },
 
     topBar: {
-        flex: 3,
+        height: deviceHeight/7 * 1,
         backgroundColor: '#1c1f4c',
         borderBottomWidth: 2,
         alignItems: 'center',
@@ -83,7 +93,7 @@ const styles = StyleSheet.create({
     },
 
     contentContainer: {
-        flex: 18,
+        height: deviceHeight/7 * 6,
         flexDirection: 'column',
         backgroundColor: 'white',
         alignItems: 'center',
@@ -94,7 +104,7 @@ const styles = StyleSheet.create({
         margin: 10,
     },
     text2: {
-        fontSize: 16,
+        fontSize: 14,
         margin: 5,
     },
     inputBars: {
@@ -105,15 +115,14 @@ const styles = StyleSheet.create({
         borderRadius: 7,
         paddingLeft: 3,
     },
-    buttons: {
+    button: {
         width: 1.75 * (deviceWidth / 3),
         height: 25,
-        margin: 10,
         borderRadius: 5,
     },
     signUpText: {
-        fontSize: 16,
-        margin: 2,
+        fontSize: 14,
+        margin: 1,
         color: 'blue',
     },
 });
