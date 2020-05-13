@@ -80,7 +80,7 @@ export async function fetchClassesForWeek() {
     };
 
     assignmentStart = moment(assignmentDay + "T16:00:00-08:00")
-    assignmentEnd = assignmentStart.add(dayTasksTemp[dayTemp.format("YYYY-MM-DD")][i], "minutes")
+    assignmentEnd = assignmentStart.add(dayTasksTemp[dateTemp.format("YYYY-MM-DD")][i], "minutes")
     
     temp = Object.assign(temp, dayTasksTemp);
   }
