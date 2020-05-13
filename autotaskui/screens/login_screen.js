@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         margin: 10,
-        broderRadius: 10,
+        borderRadius: 10,
     },
     buttons: {
         width: 1.75 * (deviceWidth / 3),

@@ -42,8 +42,11 @@ export class InputScreen extends React.Component {
       return;
     }
 
-    let date = moment(this.state.inputText3, "MM-DD-YYYY");
+    let date = moment(this.state.inputText3, "MM-DD-YYYY").subtract(1, "day");
     let dateStr = date.format("YYYY-MM-DD");
+    let due = moment(this.state.inputText3, "MM-DD-YYYY");
+    let dueStr = due.format("YYYY-MM-DD");
+    
     if(dateStr == "Invalid date") {
       alert("format date, moron.");
       return;
@@ -55,7 +58,7 @@ export class InputScreen extends React.Component {
     let temp = {
       subject: this.state.inputText1,
       name: this.state.inputText2,
-      dueDate: dateStr,
+      dueDate: dueStr,
       eta: this.state.inputText4,
       priority: this.state.priorityNum,
     };

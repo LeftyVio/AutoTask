@@ -20,7 +20,7 @@ let today = moment();
 let todayStr = today.format("YYYY-MM-DD");
 let todayDate = today.format("dddd, MM/DD");
 let tomorrow = moment().add(1, "days");
-let tomorowStr = tomorrow.format("YYYY-MM-DD");
+let tomorrowStr = tomorrow.format("YYYY-MM-DD");
 let tomorrowDate = tomorrow.format("dddd, MM/DD");
 let day3 = moment().add(2, "days");
 let day3Str = day3.format("YYYY-MM-DD");
@@ -36,7 +36,7 @@ let day6Str = day6.format("YYYY-MM-DD");
 let day6Date = day6.format("dddd, MM/DD");
 let week = moment().add(6, "days");
 let weekDate = week.format("dddd, MM/DD");
-let weekStr = today.format("YYYY-MM-DD");
+let weekStr = week.format("YYYY-MM-DD");
 
 let todayTitle = today.format("MMM DD");
 let weekTitle = week.format("MMM DD");
@@ -55,6 +55,10 @@ export async function fetchClassesForWeek() {
     }
   //*/
   let dateTempPre = today.subtract(1, "days");
+  let assignmentDay = moment().format("YYYY-MM-DD");
+  let assignmentStart;
+  let assignmentEnd;
+
   for (let i = 0; i < 7; i++) {
     let dateTemp = dateTempPre.add(1, "days");
     let tasksTemp = await TaskStorage.getAllTasks(
@@ -67,7 +71,15 @@ export async function fetchClassesForWeek() {
     ) {
       tasksTemp = { tasks: [] };
     }
-    let dayTasksTemp = { [dateTemp.format("YYYY-MM-DD")]: tasksTemp.tasks };
+    let dayTasksTemp = {
+      [dateTemp.format("YYYY-MM-DD")]: tasksTemp.tasks.sort(function (a, b) {
+        return parseInt(a.priority) - parseInt(b.priority);
+      }),
+    };
+
+    assignmentStart = moment(assignmentDay + "T16:00:00-08:00")
+    assignmentEnd = assignmentStart.add(dayTasksTemp[dayTemp.format("YYYY-MM-DD")][i], "minutes")
+    
     temp = Object.assign(temp, dayTasksTemp);
   }
   
@@ -194,42 +206,272 @@ export class WeekScreen extends React.Component {
 
         <View style={styles.contentContainer}>
           <ScrollView>
-            {tasksByDay[todayStr].map((item) => (
-              <View>
-                <View style={{ flexDirection: "row", marginTop: 15 }}>
-                  <View style={styles.dayTitle}>
-                    <Text style={styles.dayText}>{todayDate}</Text>
-                  </View>
-
-                  <View style={styles.boxes}>
-                    <View style={styles.yellowBox} />
-                    <View style={styles.redBox} />
-                  </View>
+            <View>
+              <View style={{ flexDirection: "row", marginTop: 15 }}>
+                <View style={styles.dayTitle}>
+                  <Text style={styles.dayText}>{todayDate}</Text>
                 </View>
-
-                <View style={styles.work}>
-                  <View style={styles.times}>
-                    <Text style={styles.yellowText}>Start Time</Text>
-                    <Text style={styles.yellowText}>|</Text>
-                    <Text style={styles.yellowText}>End Time</Text>
-                  </View>
-                  <View style={styles.wTask}>
-                    <Text style={{fontSize: 15}}>{item.name}</Text>
-                  </View>
-                </View>
-
-                <View style={styles.deadline}>
-                  <View style={styles.times}>
-                    <Text style={styles.redText}>{item.dueDate}</Text>
-                  </View>
-                  <View style={styles.dTask}>
-                    <Text style={{fontSize: 15, fontWeight: "bold"}}>
-                      {day.deadlineType}
-                    </Text>
-                  </View>
+                <View style={styles.boxes}>
+                  <View style={styles.yellowBox} />
+                  <View style={styles.redBox} />
                 </View>
               </View>
-            ))}
+              {tasksByDay[todayStr].map((item) => (
+                <View>
+                  <View style={styles.work}>
+                    <View style={styles.times}>
+                      <Text style={styles.yellowText}>Start Time</Text>
+                      <Text style={styles.yellowText}>|</Text>
+                      <Text style={styles.yellowText}>End Time</Text>
+                    </View>
+                    <View style={styles.wTask}>
+                      <Text style={{fontSize: 15}}>{item.subject}: {item.name}</Text>
+                      <Text style={{fontSize: 15}}>Priority: {item.priority}</Text>
+                    </View>
+                  </View>
+
+                  <View style={styles.deadline}>
+                    <View style={styles.times}>
+                      <Text style={styles.redText}>Deadline:</Text>
+                    </View>
+                    <View style={styles.dTask}>
+                      <Text style={{fontSize: 15, fontWeight: "bold"}}>
+                        {item.dueDate}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              ))}
+            </View>
+            
+            <View>
+              <View style={{ flexDirection: "row", marginTop: 15 }}>
+                <View style={styles.dayTitle}>
+                  <Text style={styles.dayText}>{tomorrowDate}</Text>
+                </View>
+                <View style={styles.boxes}>
+                  <View style={styles.yellowBox} />
+                  <View style={styles.redBox} />
+                </View>
+              </View>
+              {tasksByDay[tomorrowStr].map((item) => (
+                <View>
+                  <View style={styles.work}>
+                    <View style={styles.times}>
+                      <Text style={styles.yellowText}>Start Time</Text>
+                      <Text style={styles.yellowText}>|</Text>
+                      <Text style={styles.yellowText}>End Time</Text>
+                    </View>
+                    <View style={styles.wTask}>
+                      <Text style={{fontSize: 15}}>{item.subject}: {item.name}</Text>
+                      <Text style={{fontSize: 15}}>Priority: {item.priority}</Text>
+                    </View>
+                  </View>
+
+                  <View style={styles.deadline}>
+                    <View style={styles.times}>
+                      <Text style={styles.redText}>Deadline:</Text>
+                    </View>
+                    <View style={styles.dTask}>
+                      <Text style={{fontSize: 15, fontWeight: "bold"}}>
+                      {item.dueDate}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              ))}
+            </View>
+
+            <View>
+              <View style={{ flexDirection: "row", marginTop: 15 }}>
+                <View style={styles.dayTitle}>
+                  <Text style={styles.dayText}>{day3Date}</Text>
+                </View>
+                <View style={styles.boxes}>
+                  <View style={styles.yellowBox} />
+                  <View style={styles.redBox} />
+                </View>
+              </View>
+              {tasksByDay[day3Str].map((item) => (
+                <View>
+                  <View style={styles.work}>
+                    <View style={styles.times}>
+                      <Text style={styles.yellowText}>Start Time</Text>
+                      <Text style={styles.yellowText}>|</Text>
+                      <Text style={styles.yellowText}>End Time</Text>
+                    </View>
+                    <View style={styles.wTask}>
+                      <Text style={{fontSize: 15}}>{item.subject}: {item.name}</Text>
+                      <Text style={{fontSize: 15}}>Priority: {item.priority}</Text>
+                    </View>
+                  </View>
+
+                  <View style={styles.deadline}>
+                    <View style={styles.times}>
+                      <Text style={styles.redText}>Deadline:</Text>
+                    </View>
+                    <View style={styles.dTask}>
+                      <Text style={{fontSize: 15, fontWeight: "bold"}}>
+                      {item.dueDate}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              ))}
+            </View>
+
+            <View>
+              <View style={{ flexDirection: "row", marginTop: 15 }}>
+                <View style={styles.dayTitle}>
+                  <Text style={styles.dayText}>{day4Date}</Text>
+                </View>
+                <View style={styles.boxes}>
+                  <View style={styles.yellowBox} />
+                  <View style={styles.redBox} />
+                </View>
+              </View>
+              {tasksByDay[day4Str].map((item) => (
+                <View>
+                  <View style={styles.work}>
+                    <View style={styles.times}>
+                      <Text style={styles.yellowText}>Start Time</Text>
+                      <Text style={styles.yellowText}>|</Text>
+                      <Text style={styles.yellowText}>End Time</Text>
+                    </View>
+                    <View style={styles.wTask}>
+                      <Text style={{fontSize: 15}}>{item.subject}: {item.name}</Text>
+                      <Text style={{fontSize: 15}}>Priority: {item.priority}</Text>
+                    </View>
+                  </View>
+
+                  <View style={styles.deadline}>
+                    <View style={styles.times}>
+                      <Text style={styles.redText}>Deadline:</Text>
+                    </View>
+                    <View style={styles.dTask}>
+                      <Text style={{fontSize: 15, fontWeight: "bold"}}>
+                      {item.dueDate}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              ))}
+            </View>
+
+            <View>
+              <View style={{ flexDirection: "row", marginTop: 15 }}>
+                <View style={styles.dayTitle}>
+                  <Text style={styles.dayText}>{day5Date}</Text>
+                </View>
+                <View style={styles.boxes}>
+                  <View style={styles.yellowBox} />
+                  <View style={styles.redBox} />
+                </View>
+              </View>
+              {tasksByDay[day5Str].map((item) => (
+                <View>
+                  <View style={styles.work}>
+                    <View style={styles.times}>
+                      <Text style={styles.yellowText}>Start Time</Text>
+                      <Text style={styles.yellowText}>|</Text>
+                      <Text style={styles.yellowText}>End Time</Text>
+                    </View>
+                    <View style={styles.wTask}>
+                      <Text style={{fontSize: 15}}>{item.subject}: {item.name}</Text>
+                      <Text style={{fontSize: 15}}>Priority: {item.priority}</Text>
+                    </View>
+                  </View>
+
+                  <View style={styles.deadline}>
+                    <View style={styles.times}>
+                      <Text style={styles.redText}>Deadline:</Text>
+                    </View>
+                    <View style={styles.dTask}>
+                      <Text style={{fontSize: 15, fontWeight: "bold"}}>
+                      {item.dueDate}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              ))}
+            </View>
+
+            <View>
+              <View style={{ flexDirection: "row", marginTop: 15 }}>
+                <View style={styles.dayTitle}>
+                  <Text style={styles.dayText}>{day6Date}</Text>
+                </View>
+                <View style={styles.boxes}>
+                  <View style={styles.yellowBox} />
+                  <View style={styles.redBox} />
+                </View>
+              </View>
+              {tasksByDay[day6Str].map((item) => (
+                <View>
+                  <View style={styles.work}>
+                    <View style={styles.times}>
+                      <Text style={styles.yellowText}>Start Time</Text>
+                      <Text style={styles.yellowText}>|</Text>
+                      <Text style={styles.yellowText}>End Time</Text>
+                    </View>
+                    <View style={styles.wTask}>
+                      <Text style={{fontSize: 15}}>{item.subject}: {item.name}</Text>
+                      <Text style={{fontSize: 15}}>Priority: {item.priority}</Text>
+                    </View>
+                  </View>
+
+                  <View style={styles.deadline}>
+                    <View style={styles.times}>
+                      <Text style={styles.redText}>Deadline:</Text>
+                    </View>
+                    <View style={styles.dTask}>
+                      <Text style={{fontSize: 15, fontWeight: "bold"}}>
+                      {item.dueDate}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              ))}
+            </View>
+
+            <View>
+              <View style={{ flexDirection: "row", marginTop: 15 }}>
+                <View style={styles.dayTitle}>
+                  <Text style={styles.dayText}>{weekDate}</Text>
+                </View>
+                <View style={styles.boxes}>
+                  <View style={styles.yellowBox} />
+                  <View style={styles.redBox} />
+                </View>
+              </View>
+              {tasksByDay[weekStr].map((item) => (
+                <View>
+                  <View style={styles.work}>
+                    <View style={styles.times}>
+                      <Text style={styles.yellowText}>Start Time</Text>
+                      <Text style={styles.yellowText}>|</Text>
+                      <Text style={styles.yellowText}>End Time</Text>
+                    </View>
+                    <View style={styles.wTask}>
+                      <Text style={{fontSize: 15}}>{item.subject}: {item.name}</Text>
+                      <Text style={{fontSize: 15}}>Priority: {item.priority}</Text>
+                    </View>
+                  </View>
+
+                  <View style={styles.deadline}>
+                    <View style={styles.times}>
+                      <Text style={styles.redText}>Deadline:</Text>
+                    </View>
+                    <View style={styles.dTask}>
+                      <Text style={{fontSize: 15, fontWeight: "bold"}}>
+                      {item.dueDate}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              ))}
+            </View>
+            <View style={{height: 30}}/>
           </ScrollView>
         </View>
       </View>
@@ -272,7 +514,6 @@ const styles = StyleSheet.create({
     height: deviceHeight / 15,
     width: (deviceWidth / 7) * 4,
     paddingLeft: 20,
-    fontSize: 10,
     justifyContent: "center",
     //borderWidth: 1
   },
@@ -318,7 +559,7 @@ const styles = StyleSheet.create({
   wTask: {
     fontSize: 15,
     width: deviceWidth / 2,
-    // borderWidth: 1
+    //borderWidth: 1
   },
   deadline: {
     flexDirection: "row",
