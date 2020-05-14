@@ -39,6 +39,12 @@ export async function saveSetting(key, value) {
   );
 }
 
+let that;
+
+export async function fetchSetting() {
+  that.grabSetting();
+}
+
 export class SettingsScreen extends React.Component {
   state = {
     returnToWeek: returnToWeek,
@@ -51,11 +57,19 @@ export class SettingsScreen extends React.Component {
   }
 
   async UNSAFE_componentWillMount() {
+    that = this;
+    await this.grabSetting();
+  }
+
+  async grabSetting() {
     let done = false;
     let tempCan = await getSetting("returnToWeek");
     if (tempCan == true || tempCan == "true") {
       returnToWeek = true;
-      this.setState({returnToWeek: true})
+      this.setState({ returnToWeek: true });
+    } else {
+      returnToWeek = false;
+      this.setState({ returnToWeek: false });
     }
     done = true;
     while (!done) {}
@@ -75,16 +89,14 @@ export class SettingsScreen extends React.Component {
               alignItems: "center",
             }}
           >
-            <Text>
-              Return to week-view after inputting assignment
-            </Text>
-            <View style={{width: 20}} />
+            <Text>Return to week-view after inputting assignment</Text>
+            <View style={{ width: 20 }} />
             <Switch
               onValueChange={async (input) => await this.setReturnToWeek(input)}
               value={this.state.returnToWeek}
             />
           </View>
-          <View style={{height: deviceHeight/16}} />
+          <View style={{ height: deviceHeight / 16 }} />
           <Button title="Log Out" onPress={async () => await logOut()} />
         </View>
       </View>

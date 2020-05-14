@@ -9,6 +9,8 @@ import {
   Button,
   AsyncStorage,
 } from "react-native";
+import { fetchSetting } from "../pages/settings_screen";
+
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
@@ -30,6 +32,7 @@ export class LoginScreen extends React.Component {
       await AsyncStorage.setItem("@Login:password", this.state.logPass);
       this.props.navigation.navigate("NavScreen");
       this.setState({ logPass: "", logUser: "" });
+      //await fetchSetting();
     }
   }
 
