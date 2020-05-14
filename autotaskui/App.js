@@ -13,7 +13,7 @@ export default class AutoTask extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <NavScreen/>
+        <AppNavigator/>
       </View>
     );
   }
