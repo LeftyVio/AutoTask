@@ -92,14 +92,14 @@ export class NavScreen extends React.Component {
                         onPress={this.setSettingsDisplay}
                     >
                         <View style={styles.navBarButton}>
-                            <Image style={{height: 20, width: 20}} source={require('../images/Icons/calendarIcon.png')}/>
+                            <Image style={{height: 20, width: 20}} source={require('../images/Icons/settingsIcon.png')}/>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={this.setAboutDisplay}
                     >
                         <View style={styles.navBarButton}>
-                            <Image style={{height: 20, width: 20}} source={require('../images/Icons/calendarIcon.png')}/>
+                            <Image style={{height: 20, width: 20}} source={require('../images/Icons/aboutIcon.png')}/>
                         </View>
                     </TouchableOpacity>
                 </View>
