@@ -4,10 +4,19 @@ import {
   Text,
   View,
   Dimensions,
+  AsyncStorage,
+  Button
 } from 'react-native';
+import { NavScreen } from "../screens/nav_screen"
 
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
+
+async function logOut() {
+  AsyncStorage.removeItem("@Login:username");
+  AsyncStorage.removeItem("@Login:password");
+  NavScreen.navToStart();
+}
 
 export class SettingsScreen extends React.Component {
   render() {
@@ -17,7 +26,7 @@ export class SettingsScreen extends React.Component {
             <Text style={styles.title}>Settings</Text>
         </View>
         <View style={styles.contentContainer}>
-          
+          <Button title="Log Out" onPress={async () => await logOut()} />
         </View>
       </View>
     );
@@ -48,7 +57,7 @@ const styles = StyleSheet.create({
     height: deviceHeight / 11 * 9.25,
     width: deviceWidth,
     backgroundColor: 'white',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

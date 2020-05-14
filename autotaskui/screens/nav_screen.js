@@ -13,6 +13,8 @@ import { AboutScreen } from '../pages/about_screen.js';
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
 
+let that;
+
 export class NavScreen extends React.Component {
     state = {
         weekDisplay: 'block',
@@ -45,6 +47,14 @@ export class NavScreen extends React.Component {
         settingsDisplay: 'none',
         aboutDisplay: 'block',
     }));
+
+    UNSAFE_componentWillMount() {
+        that = this;
+    }
+
+    static navToStart() {
+        that.props.navigation.navigate("LoginScreen")
+    }
 
     render() {
         return (
