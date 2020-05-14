@@ -73,8 +73,6 @@ export class InputScreen extends React.Component {
       inputText4: "",
       priorityNum: "1",
     });
-
-    this.props.navigation.navigate("WeekScreen");
   }
 
   render() {

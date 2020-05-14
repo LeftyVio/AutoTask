@@ -29,6 +29,7 @@ export class LoginScreen extends React.Component {
       await AsyncStorage.setItem("@Login:username", this.state.logUser);
       await AsyncStorage.setItem("@Login:password", this.state.logPass);
       this.props.navigation.navigate("NavScreen");
+      this.setState({ logPass: "", logUser: "" });
     }
   }
 
@@ -48,7 +49,7 @@ export class LoginScreen extends React.Component {
           <Text style={styles.title}>AutoTask</Text>
         </View>
         <View style={styles.contentContainer}>
-          <Text style={styles.text1}>Log in</Text>
+          <Text style={styles.text1}>Log In</Text>
           <TextInput
             style={styles.inputBars}
             onChangeText={(logUser) => this.setState({ logUser })}
@@ -65,11 +66,17 @@ export class LoginScreen extends React.Component {
           <View style={{ height: deviceHeight / 30 }} />
           <Button
             style={styles.button}
-            title="Log in"
+            title="Log In / Sign Up"
             onPress={async () => await this.checkLogin()}
           />
+        </View>
+      </View>
+    );
+  }
+}
 
-          <View style={{ marginTop: 20, alignItems: "center" }}>
+/*
+<View style={{ marginTop: 20, alignItems: "center" }}>
             <Text style={styles.text2}>Don't have an account?</Text>
 
             <TouchableHighlight
@@ -80,11 +87,7 @@ export class LoginScreen extends React.Component {
               <Text style={styles.signUpText}>Sign Up</Text>
             </TouchableHighlight>
           </View>
-        </View>
-      </View>
-    );
-  }
-}
+//*/
 
 const styles = StyleSheet.create({
   container: {
