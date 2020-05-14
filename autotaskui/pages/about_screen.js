@@ -21,7 +21,7 @@ export class AboutScreen extends React.Component {
         </View>
       </View>
     );
-  }
+  } // a l s o   a i d e n   s a t o
 }
 
 const styles = StyleSheet.create({

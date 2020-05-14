@@ -15,6 +15,10 @@ let deviceWidth = Dimensions.get('window').width;
 
 let that;
 
+export function navToWeek() {
+    that.setWeekDisplay();
+}
+
 export class NavScreen extends React.Component {
     state = {
         weekDisplay: 'block',

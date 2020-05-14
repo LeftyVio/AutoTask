@@ -7,10 +7,13 @@ import {
   Dimensions,
   Picker,
   Button,
+  AsyncStorage,
 } from "react-native";
 import { TaskStorage } from "../classes/task_storage";
 import moment from "moment";
 import { fetchClassesForWeek } from "./week_screen";
+import { navToWeek } from "../screens/nav_screen";
+import { getSetting } from "./settings_screen";
 
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
@@ -43,12 +46,12 @@ export class InputScreen extends React.Component {
     let dateStr = date.format("YYYY-MM-DD");
     let due = moment(this.state.inputText3, "MM-DD-YYYY");
     let dueStr = due.format("YYYY-MM-DD");
-    
-    if(dateStr == "Invalid date") {
+
+    if (dateStr == "Invalid date") {
       alert("format date, moron.");
       return;
     }
-    if(isNaN(this.state.inputText4)) {
+    if (isNaN(this.state.inputText4)) {
       alert("make sure eta is number, dummy.");
       return;
     }
@@ -59,7 +62,7 @@ export class InputScreen extends React.Component {
       eta: this.state.inputText4,
       priority: this.state.priorityNum,
       assignmentStart: "",
-      assignmentEnd: ""
+      assignmentEnd: "",
     };
 
     await TaskStorage.setTask(dateStr, temp);
@@ -73,6 +76,15 @@ export class InputScreen extends React.Component {
       inputText4: "",
       priorityNum: "1",
     });
+
+    await this.returnToWeek();
+  }
+
+  async returnToWeek() {
+    let canReturn = await getSetting("returnToWeek");
+    if (canReturn) {
+      navToWeek();
+    }
   }
 
   render() {
@@ -88,7 +100,8 @@ export class InputScreen extends React.Component {
               <Text style={{ fontSize: 15 }}>Subject</Text>
             </View>
             <View style={styles.optionInputContainer}>
-              <TextInput style={styles.optionInput}
+              <TextInput
+                style={styles.optionInput}
                 onChangeText={(inputText1) => this.setState({ inputText1 })}
                 placeholder="Enter assignment type"
                 placeholderTextColor="#979797"
@@ -101,7 +114,8 @@ export class InputScreen extends React.Component {
               <Text style={{ fontSize: 15 }}>Name</Text>
             </View>
             <View style={styles.optionInputContainer}>
-              <TextInput style={styles.optionInput}
+              <TextInput
+                style={styles.optionInput}
                 onChangeText={(inputText2) => this.setState({ inputText2 })}
                 placeholder="Enter name of assignment"
                 placeholderTextColor="#979797"
@@ -114,7 +128,8 @@ export class InputScreen extends React.Component {
               <Text style={{ fontSize: 15 }}>Due Date</Text>
             </View>
             <View style={styles.optionInputContainer}>
-              <TextInput style={styles.optionInput}
+              <TextInput
+                style={styles.optionInput}
                 onChangeText={(inputText3) => this.setState({ inputText3 })}
                 placeholder="mm/dd/yyyy"
                 placeholderTextColor="#979797"
@@ -127,7 +142,8 @@ export class InputScreen extends React.Component {
               <Text style={{ fontSize: 15 }}>Estimated Time</Text>
             </View>
             <View style={styles.optionInputContainer}>
-              <TextInput style={styles.optionInput}
+              <TextInput
+                style={styles.optionInput}
                 onChangeText={(inputText4) => this.setState({ inputText4 })}
                 placeholder="Time to finish assignment (in min)"
                 placeholderTextColor="#979797"
@@ -140,7 +156,8 @@ export class InputScreen extends React.Component {
               <Text style={{ fontSize: 15 }}>Priority</Text>
             </View>
             <View style={styles.optionInputContainer}>
-              <Picker style={styles.optionInput}
+              <Picker
+                style={styles.optionInput}
                 selectedValue={this.state.priorityNum}
                 onValueChange={(priorityNum, itemIndex) =>
                   this.setState({ priorityNum })
